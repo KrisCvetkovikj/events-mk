@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Event-MK</title>
+	
+	<script src="https://code.jquery.com/jquery-2.2.1.min.js"></script>
+</head>
+<body>
+
+	<label>Latitude</label>
+	<input id="lat" value="41.99"></input>
+	<hr>
+	<label>Latitude</label>
+	<input id="lng" value="21.43"></input>
+	<hr>
+	<label>Distance</label>
+	<input id="distance" value="1000"></input>
+	<hr>
+	<button id="getevents">Get Events</button>
+	
+	<script>
+    $("#getevents").click(function() {
+        var events =  {
+                "lat": $('#lat').val(),
+                "lng" : $('#lng').val(),
+                "distance": $('#distance').val(),
+                "sort": "venue",
+                "access_token": "CAANgFkSB8gEBAFZCjEtCCfJX0tCy6iq3rkkl6mFnRBXjF8p1hFgnpHxuOFJ3f4AikUMiguReKTvWDkQlBhK7QbOwaLebSTzo6qkGfWXMqzx0cy7cyFTDDtKfGRiLMIl1i0ZC8YCUEtpvA6xKOnaJkpi7HPfCJK8bJIeKUrTBEFyknHbhbWZAQxRE2waBZAgZD"
+        };
+ 
+        $.ajax({
+            url: "http://localhost:3000/events",
+            type: 'GET',
+            datatype: 'jsonp',
+            data: events,
+            success: function (data) {
+                console.log(JSON.stringify(data));
+            },
+            error: function(xhr, status, err) {
+                console.error("Error code:" + status);
+                console.error("Response text:" + xhr.responseText);
+                console.error("Error: " + err);
+            }
+        });
+    });
+ 	</script>
+
+
+</body>
+</html>

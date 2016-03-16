@@ -1,0 +1,17 @@
+{
+  "name": "events-mk",
+  "description": "NodeJS app for Macedonian events",
+  "version": "0.1.0",
+  "private": false,
+  "scripts": {
+    "start": "node ./app"
+  },
+  "dependencies": {
+    "bluebird": "^2.10.0",
+    "debug": "~2.2.0",
+    "express": "~4.13.1",
+    "morgan": "~1.6.1",
+    "ejs": "~1.0.0",
+    "request-promise": "^0.4.3"
+  }
+}
