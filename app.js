@@ -18,8 +18,5 @@ app.get('/', function(req, res) {
 app.use('/', routes);
 
 var port = process.env.APP_PORT || 3000;
-app.set('port', port);
 
-var server = http.createServer(app);
-
-server.listen(port);
+app.listen(port);
