@@ -17,6 +17,6 @@ app.get('/', function(req, res) {
 
 app.use('/', routes);
 
-var port = process.env.APP_PORT || 3000;
+var port = process.env.PORT || 3000;
 
 app.listen(port);
