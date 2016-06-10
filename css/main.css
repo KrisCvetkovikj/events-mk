@@ -1,0 +1,146 @@
+
+
+/* ==========================================================================
+   Author's custom styles
+   ========================================================================== */
+
+body {
+    color: #FEFEFE;
+    background-color: #001D4A;
+}
+
+input[type=date],
+input[type=time],
+input[type=datetime-local],
+input[type=month] {
+    line-height: 24px;
+}
+
+input, button, select, textarea {
+    line-height: 24px;
+    height: 32px;
+}
+
+.navbar-brand {
+    font-size: 16px;
+}
+
+.navbar-form {
+    margin-top: 7px;
+}
+
+.navbar-right img {
+    transition: all .5s ease;
+    margin-top: 2px;
+}
+
+.navbar-right img:hover {
+    height: 35px!important;
+    margin-top: 0px;
+}
+
+.sometopmargin {
+    margin-top: 20px;
+}
+
+.nopadding {
+    padding: 0;
+}
+
+/* Left */
+
+.left h2 {
+    margin-top: 0;
+}
+
+.left button .glyphicon {
+    font-size: 13px;
+    margin-right: 6px;
+    margin-left: -4px;
+}
+
+.left .row {
+    line-height: 32px;
+    margin-top: 4px;
+    margin-bottom: 4px;
+}
+
+.left p {
+    margin: 0;
+}
+
+.left .btn {
+    margin: 8px 0;
+}
+
+/* Right */
+
+.right button .glyphicon {
+    font-size: 16px;
+}
+
+.filter-buttons {
+    float: left;
+}
+
+.sort-buttons {
+    float: right;
+}
+
+.column {
+    background: #27476E;
+    padding: 16px;
+    margin: 8px 0;
+    border-radius: 8px;
+    border-left: 2px solid #001D4A;
+    border-right: 2px solid #001D4A;
+    transition: all .3s ease;
+}
+
+.column:hover {
+    background: #3A6394;
+}
+
+.column img {
+    max-width: 100%;
+}
+
+.column h3 {
+    margin-top: 8px;
+}
+
+.column button {
+    margin-bottom: 4px;
+}
+
+.column button .glyphicon {
+    color: #001D4A;
+}
+
+.image-column img {
+    max-width: 66.6%;
+}
+
+.glyphicon-star {
+    color: gold!important;
+    text-shadow: 0px 0px 2px #001D4A;
+}
+
+.glyphicon-map-marker {
+    color: firebrick;
+    margin: 0 8px;
+}
+
+.text-column h3 {
+    margin-top: 0;
+}
+
+@media screen and (max-width: 500px) {
+    .sort-buttons {
+        float: left;
+        margin-top: 14px;
+    }
+}
+
+
+

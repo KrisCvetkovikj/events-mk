@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Event-MK</title>
+
+    <script src="//code.jquery.com/jquery-2.2.1.min.js"></script>
+</head>
+<body>
+
+<label>Latitude</label>
+<input id="lat" value="41.99" />
+<hr>
+<label>Latitude</label>
+<input id="lng" value="21.43" />
+<hr>
+<label>Distance</label>
+<input id="distance" value="1000" />
+<hr>
+<button id="getevents">Get Events</button>
+
+<script>
+    $("#getevents").click(function () {
+        var events = {
+            "lat": $('#lat').val(),
+            "lng": $('#lng').val(),
+            "distance": $('#distance').val(),
+            "sort": "popularity",
+            "from": (new Date().getTime() / 1000).toFixed()
+        };
+
+        $.ajax({
+            //url: "//events-mk.herokuapp.com/events",
+            //url: "//localhost:3000/events",
+            url: "/events",
+            type: 'GET',
+            datatype: 'jsonp',
+            data: events,
+            success: function (data) {
+                console.log(JSON.stringify(data));
+            },
+            error: function (xhr, status, err) {
+                console.error("Error code:" + status);
+                console.error("Response text:" + xhr.responseText);
+                console.error("Error: " + err);
+            }
+        });
+    });
+</script>
+
+
+</body>
+</html>
