@@ -36,40 +36,40 @@ app.use('/users', users);
 app.use('/events', events);
 
 app.get('/', function (req, res) {
-	res.render('index');
+    res.render('index');
 });
 
 app.get('/test', function (req, res) {
-	res.render('test');
+    res.render('test');
 });
 
 app.get('/db/getUsers', function (req, res) {
-	db.getUsers(req, res);
+    db.getUsers(req, res);
 });
 app.get('/db/addUser', function (req, res) {
-	db.addUser(req, res);
+    db.addUser(req, res);
 });
 app.get('/db/getUserFavorites', function (req, res) {
-	db.getUserFavorites(req, res);
+    db.getUserFavorites(req, res);
 });
 app.get('/db/addFavorite', function (req, res) {
-	db.addFavorite(req, res);
+    db.addFavorite(req, res);
 });
 app.get('/db/removeFavorite', function (req, res) {
-	db.removeFavorite(req, res);
+    db.removeFavorite(req, res);
 });
 app.get('/db/createTable', function (req, res) {
-	db.createTable(req, res);
+    db.createTable(req, res);
 });
 app.get('/db/dropTable', function (req, res) {
-	db.dropTable(req, res);
+    db.dropTable(req, res);
 });
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-	var err = new Error('Not Found');
-	err.status = 404;
-	next(err);
+    var err = new Error('Not Found');
+    err.status = 404;
+    next(err);
 });
 
 // error handlers
@@ -77,23 +77,23 @@ app.use(function (req, res, next) {
 // development error handler
 // will print stacktrace
 if (app.get('env') === 'development') {
-	app.use(function (err, req, res, next) {
-		res.status(err.status || 500);
-		res.render('error', {
-			message: err.message,
-			error: err
-		});
-	});
+    app.use(function (err, req, res, next) {
+        res.status(err.status || 500);
+        res.render('error', {
+            message: err.message,
+            error: err
+        });
+    });
 }
 
 // production error handler
 // no stacktraces leaked to user
 app.use(function (err, req, res, next) {
-	res.status(err.status || 500);
-	res.render('error', {
-		message: err.message,
-		error: {}
-	});
+    res.status(err.status || 500);
+    res.render('error', {
+        message: err.message,
+        error: {}
+    });
 });
 
 

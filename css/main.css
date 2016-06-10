@@ -6,7 +6,10 @@
 
 body {
     color: #FEFEFE;
-    background-color: #001D4A;
+    background: url('/events-mkdotcom/img/bg.png') no-repeat;
+    background-size: cover;
+    background-position: top;
+    font-family: 'Roboto', sans-serif;
 }
 
 input[type=date],
@@ -23,6 +26,11 @@ input, button, select, textarea {
 
 .navbar-brand {
     font-size: 16px;
+    padding: 0;
+}
+
+.navbar-brand>img {
+    max-height: 100%;
 }
 
 .navbar-form {
@@ -39,6 +47,13 @@ input, button, select, textarea {
     margin-top: 0px;
 }
 
+.navbar-form {
+    border-top: 0;
+    border-bottom: 0;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+}
+
 .sometopmargin {
     margin-top: 20px;
 }
@@ -47,10 +62,30 @@ input, button, select, textarea {
     padding: 0;
 }
 
+.modal-open .navbar {
+    padding-right: 17px;
+}
+
+.modal {
+    color: #333;
+}
+
 /* Left */
+
+.left {
+    background: rgba(0, 0, 0, 0.25);
+    border-radius: 4%;
+    padding: 16px 8px;
+    transition: all .3s ease;
+}
+
+.left:hover {
+    background: rgba(171, 42, 42, 0.7);
+}
 
 .left h2 {
     margin-top: 0;
+    margin-bottom: 24px;
 }
 
 .left button .glyphicon {
@@ -88,17 +123,20 @@ input, button, select, textarea {
 }
 
 .column {
-    background: #27476E;
+    background: rgba(0, 0, 0, 0.25);
     padding: 16px;
     margin: 8px 0;
     border-radius: 8px;
-    border-left: 2px solid #001D4A;
-    border-right: 2px solid #001D4A;
     transition: all .3s ease;
+    text-align: center;
+    background-clip: padding-box;
+    border: 4px solid transparent;
 }
 
 .column:hover {
-    background: #3A6394;
+    background: rgba(177, 42, 42, 0.7);
+    background-clip: padding-box;
+    border: 4px solid transparent;
 }
 
 .column img {
@@ -118,7 +156,7 @@ input, button, select, textarea {
 }
 
 .image-column img {
-    max-width: 66.6%;
+    max-width: 60.6%;
 }
 
 .glyphicon-star {
@@ -128,14 +166,28 @@ input, button, select, textarea {
 
 .glyphicon-map-marker {
     color: firebrick;
-    margin: 0 8px;
+    margin-top: 8px;
+    margin-right: 4px;
+    text-shadow: 0px 0px 4px gray;
 }
 
 .text-column h3 {
     margin-top: 0;
 }
 
-@media screen and (max-width: 500px) {
+@media screen and (max-width: 480px) {
+    .column {
+        text-align: center;
+    }
+    .column img {
+        width: 100%;
+    }
+    .big-image-column img {
+        margin-top: 4px;
+    }
+}
+
+@media screen and (max-width: 365px) {
     .sort-buttons {
         float: left;
         margin-top: 14px;
