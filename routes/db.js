@@ -74,8 +74,7 @@ module.exports = {
 
     var client = new pg.Client(conString);
 
-
-    client.connect();
+        client.connect();
 
     var userId = undefined;
     /*var query = client.query("SELECT * FROM fb_user WHERE " + "username = " + req.query.username);*/
