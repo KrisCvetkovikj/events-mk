@@ -10,7 +10,10 @@
       <a class="navbar-brand" href="#"><img src="/img/logo.png" alt="Nastani.mk" /></a>
     </div>
     <div id="navbar" class="navbar-collapse collapse">
-      <form class="navbar-form navbar-right" role="form">
+      <span *ngIf="isAuth">{{ displayName }}</span>
+      <form
+        *ngIf="!isAuth"
+        class="navbar-form navbar-right" role="form">
         <button type="button" (click)="modal.open()" class="btn btn-primary">Најава</button>
       </form>
 

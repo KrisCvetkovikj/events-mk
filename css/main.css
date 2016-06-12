@@ -159,8 +159,12 @@ input, button, select, textarea {
 }
 
 .glyphicon-star {
-  color: gold !important;
+  /*color: gold !important;*/
   text-shadow: 0px 0px 2px #001D4A;
+}
+
+.favorited-by-current-user {
+  color: gold !important;
 }
 
 .glyphicon-map-marker {
@@ -3731,4 +3735,20 @@ h4 {
     width: 134px;
     margin-right: 6px
   }
+}
+
+body {
+  min-height: 100vh !important;
+}
+
+
+.navbar .container {
+  display: flex;
+}
+#navbar {
+  display: flex !IMPORTANT;
+  align-items: center;
+  justify-content: flex-end;
+  text-align: right;
+  flex: 1;
 }

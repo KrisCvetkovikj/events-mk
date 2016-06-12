@@ -17,13 +17,44 @@ var Store = (function () {
         this.eventsSubj = new Rx_1.BehaviorSubject(null);
         this.userSubj = new Rx_1.BehaviorSubject(null);
         this.userId$ = new Rx_1.Subject(null);
-        this.favoriteEventsSubj = new Rx_1.BehaviorSubject(null);
+        this.favoriteEventsSubj = new Rx_1.BehaviorSubject([]);
+        this.allEventsSubj = new Rx_1.BehaviorSubject(null);
+        this.toggleFavoriteEventSubj = new Rx_1.Subject();
+        this.searchResultEventsSubj = new Rx_1.BehaviorSubject([]);
         this.setEvents = function (events) { return _this.eventsSubj.next(events); };
         this.setUser = function (user) { return _this.userSubj.next(user); };
         this.setFavoriteEvents = function (events) { return _this.favoriteEventsSubj.next(events); };
-        this.addFavoriteEvent = function (event) { return _this.favoriteEventsSubj.next(_this.favoriteEventsSubj.value.push(event)); };
-        this.removeFavoriteEvent = function (event) { return _this.eventsSubj.next(_(_this.favoriteEventsSubj.value).without(event)); };
-        this.userId$ = this.userSubj.map(function (user) { return user.id; }).distinctUntilChanged();
+        this.addFavoriteEvent = function (event) {
+            event.isFavoritedByCurrentUsed = true;
+            var events = _this.favoriteEventsSubj.value;
+            events.push(event);
+            _this.favoriteEventsSubj.next(events);
+        };
+        this.removeFavoriteEvent = function (event) {
+            event.isFavoritedByCurrentUsed = false;
+            var events = _(_this.favoriteEventsSubj.value).without(event);
+            _this.favoriteEventsSubj.next(events);
+        };
+        this.setAllEvents = function (events) { return _this.allEventsSubj.next(events); };
+        this.setSearchResultEvents = function (events) { return _this.searchResultEventsSubj.next(events); };
+        this.toggleFavoriteEvent = function (event) {
+            if (!_(_this.favoriteEventsSubj.value).findWhere({ eventId: event.eventId })) {
+                _this.addFavoriteEvent(event);
+            }
+            else {
+                _this.removeFavoriteEvent(event);
+            }
+        };
+        this.userId$ = this.userSubj.map(function (user) {
+            if (user) {
+                return user.id;
+            }
+            else {
+                return null;
+            }
+        }).distinctUntilChanged();
+        this.allEventsSubj.subscribe(function (val) { return console.log(val); });
+        this.favoriteEventsSubj.subscribe(function (val) { return console.log(val); });
     }
     Store = __decorate([
         core_1.Injectable(), 

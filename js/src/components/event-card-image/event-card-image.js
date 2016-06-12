@@ -13,7 +13,7 @@ var Rx_1 = require("rxjs/Rx");
 var EventCardImage = (function () {
     function EventCardImage() {
         this.openDetails = new Rx_1.Subject();
-        this.favoriteEvent = new Rx_1.Subject();
+        this.toggleFavoriteEvent = new Rx_1.Subject();
     }
     __decorate([
         core_1.Input(), 
@@ -26,7 +26,7 @@ var EventCardImage = (function () {
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Rx_1.Subject)
-    ], EventCardImage.prototype, "favoriteEvent", void 0);
+    ], EventCardImage.prototype, "toggleFavoriteEvent", void 0);
     EventCardImage = __decorate([
         core_1.Component({
             selector: 'event-card-image',

@@ -11,7 +11,7 @@ import * as _ from "underscore";
   ]
 })
 export class SearchEvents {
-  location      : any = null;
+  location : any = getDefaultLocation();
   municipalities: any = [];
   municipality  : any = null;
   sort          : ISearchEventSort = null;
@@ -70,6 +70,7 @@ export class SearchEvents {
   searchRandom() {
     let _locationObj = LOCATION_ITEMS[Math.floor(Math.random()*LOCATION_ITEMS.length)];
 
+    _locationObj.distance = 50000;
     this.triggerSearchEvents.next({
       location: _locationObj,
       fromDate: this.fromDateTime,
@@ -374,7 +375,7 @@ const LOCATION_ITEMS = [
     text: 'Скопје',
     lat: 41.978890,
     lng: 21.455612,
-    distance: 18,
+    distance: 10000,
     children: [
       {
         id: "centar",
@@ -392,7 +393,7 @@ const LOCATION_ITEMS = [
       },
       {
         id: "karposh",
-        text: 'Дојран',
+        text: 'Карпош',
         lat: 42.001888,
         lng: 21.398642,
         distance: 1571
@@ -506,3 +507,127 @@ const MUNICIPALITIES = {
   ]
 };
 
+
+function getDefaultLocation() {
+  return {
+    id: "skopje",
+    text: 'Скопје',
+    lat: 41.978890,
+    lng: 21.455612,
+    distance: 10000,
+    children: [
+      {
+        id: "centar",
+        text: 'Центар',
+        lat: 41.994839,
+        lng: 21.429498,
+        distance: 1637
+      },
+      {
+        id: "aerodrom",
+        text: 'Аеродром',
+        lat: 41.025501,
+        lng: 21.372861,
+        distance: 3000
+      },
+      {
+        id: "karposh",
+        text: 'Карпош',
+        lat: 42.001888,
+        lng: 21.398642,
+        distance: 1571
+      },
+      {
+        id: "butel",
+        text: 'Бутел',
+        lat: 42.015504,
+        lng: 21.443617,
+        distance: 3744
+      },
+      {
+        id: "cair",
+        text: 'Чаир',
+        lat: 42.014739,
+        lng: 21.427202,
+        distance: 1590
+      },
+      {
+        id: "ilinden",
+        text: 'Илинден',
+        lat: 42.006321,
+        lng: 21.695938,
+        distance: 2357
+      },
+      {
+        id: "chucher_sandevo",
+        text: 'Чучер Сандево',
+        lat: 42.032656,
+        lng: 21.392827,
+        distance: 2065
+      },
+      {
+        id: "gazi_baba",
+        text: 'Гази Баба',
+        lat: 42.022928,
+        lng: 21.489349,
+        distance: 3657
+      },
+      {
+        id: "gjorche_petrov",
+        text: 'Ѓорче Петров',
+        lat: 42.009892,
+        lng: 21.359353,
+        distance: 1841
+      },
+      {
+        id: "petrovec",
+        text: 'Петровец',
+        lat: 41.962554,
+        lng: 21.703234,
+        distance: 1889
+      },
+      {
+        id: "kisela_voda",
+        text: 'Кисела Вода',
+        lat: 41.963830,
+        lng: 21.451793,
+        distance: 2357
+      },
+      {
+        id: "dracevo",
+        text: 'Драчево',
+        lat: 41.944585,
+        lng: 21.511295,
+        distance: 3029
+      },
+      {
+        id: "saraj",
+        text: 'Сарај',
+        lat: 41.996753,
+        lng: 21.322532,
+        distance: 1899
+      },
+      {
+        id: "sopishte",
+        text: 'Сопиште',
+        lat: 41.940850,
+        lng: 21.394887,
+        distance: 3105
+      },
+      {
+        id: "shuto_orizari",
+        text: 'Шуто Оризари',
+        lat: 42.038297,
+        lng: 21.425958,
+        distance: 1215
+      },
+      {
+        id: "zelenikovo",
+        text: 'Зелениково',
+        lat: 41.879133,
+        lng: 21.598433,
+        distance: 1811
+      }
+    ]
+  };
+}

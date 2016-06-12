@@ -13,6 +13,7 @@ import {MODAL_DIRECTIVES, ModalComponent} from 'ng2-bs3-modal/ng2-bs3-modal';
 import {EventDetailsModal} from "./components/event-details-modal/event-details-modal";
 import {Http} from "@angular/http";
 import {Api} from "./services/api";
+import {Store} from "./services/store";
 
 
 @Component({
@@ -34,30 +35,82 @@ export class App {
   @ViewChild('modal')
   modal: ModalComponent;
 
-  eventsSubj: Subject<any> = new Subject();
+  // eventsSubj: Subject<any> = new Subject();
   // events$: Observable<any>;
   isBusy$: Observable<boolean>;
   fetchEventsTriggers: Subject<any> = new Subject();
   fetchingEventsSubj: Subject<boolean> = new BehaviorSubject(false);
   viewContainerRef: any;
+  eventsFilterSubj: Subject<string> = new BehaviorSubject('all');
+  displayEvents$: Observable<any>;
+  isAuth$: Observable<boolean>;
 
   selectedEventSubj: Subject = new Subject();
   selectedEvent$: Observable<any>;
+
+  toggleFavEventTrigger: Subject<any> = new Subject();
 
   // filters
   entryCardTypeSubj: Subject = new BehaviorSubject('big');
   entryCardType$: Observable<string>;
 
+  displayName$: Observable<string>;
+
+
+  openLoginModalSubj: Subject<any> = new Subject();
+
   constructor(
     private _events: Events,
     private _api: Api,
+    private _store: Store,
     viewContainerRef: ViewContainerRef
   ) {
     this.viewContainerRef = viewContainerRef;
     this.isBusy$ = this.fetchingEventsSubj.asObservable().distinctUntilChanged();
     this.entryCardType$ = this.entryCardTypeSubj.asObservable().distinctUntilChanged();
+    this.isAuth$ = this._store.userId$.map(val => !!val);
+    this.displayName$ = this._store.userSubj.filter(identity).map(val => val.username);
 
-    this._api.fetchEvents({lat: 41.99, lng: 21.43, distance: 1000}).subscribe();
+    this.displayEvents$ = Observable.combineLatest(
+      this.eventsFilterSubj,
+      this._store.searchResultEventsSubj,
+      this._store.favoriteEventsSubj,
+      (filter, events, favorite) => {return {filter, events, favorite};}
+    ).map(data => {
+      let {filter, events, favorite} = data;
+      if(filter == 'all') return events;
+      if(filter == 'favorite') return favorite;
+    });
+
+    this.toggleFavEventTrigger.withLatestFrom(this.isAuth$)
+      .subscribe(data => {
+        let event = data[0];
+        let isAuth = data[1];
+
+        if(isAuth) {
+          this.toggleFavoriteEvent(event);
+        } else {
+          this.openLoginModalSubj.next(true);
+        }
+      });
+    // this._api.fetchAllEvents()
+    //   .first()
+    //   .map(events => {
+    //     return events.map(event => {
+    //       if(event.eventDescription) {
+    //         event.shortDescription = event.eventDescription.substring(0, 100) + '...';
+    //       }
+    //       if(event.eventStats) {
+    //         event.eventStats.totalCount = event.eventStats.attendingCount + event.eventStats.declinedCount + event.eventStats.maybeCount + event.eventStats.noreplyCount;
+    //       }
+    //       if(event.eventStarttime) {
+    //         event.eventStartTime = new Date(event.eventStarttime);
+    //       }
+    //
+    //
+    //       return event;
+    //     });
+    //   }).subscribe(this._store.setAllEvents);
 
     // this.events$ = this.fetchEventsTriggers
     //   .flatMap(this._fetchEvents)
@@ -116,11 +169,14 @@ export class App {
 
           return event;
         });
-    }).subscribe(events => this.eventsSubj.next(events));
+    }).subscribe(events => this._store.setSearchResultEvents(events));
+
+    this._api.login({username: 'test'}).subscribe();
   };
 
-  favoriteEvent(eventId) {
-    this._api.favoriteEvent(eventId);
+
+  toggleFavoriteEvent(event) {
+    this._store.toggleFavoriteEvent(event);
   }
 
   close = () => {

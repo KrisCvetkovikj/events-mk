@@ -16,6 +16,6 @@ export class EventCardBig {
   @Input() event: IEvent;
 
   @Output() openDetails: Subject<any> = new Subject();
-  @Output() favoriteEvent: Subject<any> = new Subject();
+  @Output() toggleFavoriteEvent: Subject<any> = new Subject();
 }
 

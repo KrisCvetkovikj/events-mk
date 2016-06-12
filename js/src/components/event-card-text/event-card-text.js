@@ -13,7 +13,7 @@ var Rx_1 = require("rxjs/Rx");
 var EventCardText = (function () {
     function EventCardText() {
         this.openDetails = new Rx_1.Subject();
-        this.favoriteEvent = new Rx_1.Subject();
+        this.toggleFavoriteEvent = new Rx_1.Subject();
     }
     __decorate([
         core_1.Input(), 
@@ -26,7 +26,7 @@ var EventCardText = (function () {
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Rx_1.Subject)
-    ], EventCardText.prototype, "favoriteEvent", void 0);
+    ], EventCardText.prototype, "toggleFavoriteEvent", void 0);
     EventCardText = __decorate([
         core_1.Component({
             selector: 'event-card-text',

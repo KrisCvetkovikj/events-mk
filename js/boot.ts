@@ -9,6 +9,7 @@ import {Api} from "js/src/services/api";
 import {SafePipe} from "js/src/pipes/safe";
 import {Events} from "js/src/services/events";
 import {Store} from "./src/services/store";
+import {Persistence} from "./src/services/p";
 
 
 bootstrap(App, [

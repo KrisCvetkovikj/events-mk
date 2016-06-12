@@ -20,7 +20,11 @@ export class Api {
       params.set(key, val);
     });
 
-    return this._http.get('/db/addUser', {search: params});
+    return Observable.of({
+      id: 1,
+      username: data.username
+    });
+    // return this._http.get('/db/addUser', {search: params});
   };
 
   login = (data) => {
@@ -46,7 +50,7 @@ export class Api {
 
   getFavoriteEventsForUser() {
     let params: URLSearchParams = new URLSearchParams();
-    params.set("username", this._store.userSubj.value.username);
+    params.set("userId", this._store.userSubj.value.id);
 
     return this._http.get('/db/getUserFavorites', {search: params});
   }
@@ -62,5 +66,22 @@ export class Api {
     });
 
     return this._http.get('/events', {search: params});
+  };
+
+  fetchAllEvents = () => {
+    let data = {
+      sort: 'time',
+      access_token: this.token,
+      distance: 200000,
+      lat: 41.99,
+      lng: 21.43
+    };
+
+    let params: URLSearchParams = new URLSearchParams();
+    _(data).each((val, key) => {
+      params.set(key, val);
+    });
+
+    return this._http.get('/events', {search: params}).flatMap((val: {_body}) => Observable.of(JSON.parse(val._body).events));
   }
 }

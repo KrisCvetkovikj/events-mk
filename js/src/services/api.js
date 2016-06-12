@@ -24,7 +24,10 @@ var Api = (function () {
             _(data).each(function (val, key) {
                 params.set(key, val);
             });
-            return _this._http.get('/db/addUser', { search: params });
+            return Rx_1.Observable.of({
+                id: 1,
+                username: data.username
+            });
         };
         this.login = function (data) {
             return Rx_1.Observable.of({
@@ -49,10 +52,24 @@ var Api = (function () {
             });
             return _this._http.get('/events', { search: params });
         };
+        this.fetchAllEvents = function () {
+            var data = {
+                sort: 'time',
+                access_token: _this.token,
+                distance: 200000,
+                lat: 41.99,
+                lng: 21.43
+            };
+            var params = new http_1.URLSearchParams();
+            _(data).each(function (val, key) {
+                params.set(key, val);
+            });
+            return _this._http.get('/events', { search: params }).flatMap(function (val) { return Rx_1.Observable.of(JSON.parse(val._body).events); });
+        };
     }
     Api.prototype.getFavoriteEventsForUser = function () {
         var params = new http_1.URLSearchParams();
-        params.set("username", this._store.userSubj.value.username);
+        params.set("userId", this._store.userSubj.value.id);
         return this._http.get('/db/getUserFavorites', { search: params });
     };
     Api = __decorate([

@@ -1,4 +1,4 @@
-import {Component, ViewChild} from "@angular/core";
+import {Component, ViewChild, Input} from "@angular/core";
 import {Subject, BehaviorSubject, Observable} from "rxjs/Rx";
 import {Api} from "../../services/api";
 import {ModalComponent, MODAL_DIRECTIVES} from "ng2-bs3-modal/ng2-bs3-modal";
@@ -14,7 +14,10 @@ import * as _ from "underscore";
 })
 export class Header {
   @ViewChild('modal')
-  modal:ModalComponent;
+  modal: ModalComponent;
+  @Input() openLoginModal$;
+  @Input() isAuth: boolean;
+  @Input() displayName: string;
 
   activeLoginViewSubj:Subject<string> = new BehaviorSubject('login');
   registerData = {
@@ -26,24 +29,31 @@ export class Header {
     password: null
   };
 
-  constructor(private _api:Api, private _storage:Store) {
-    this._storage.userSubj.asObservable().subscribe(val => console.log(val));
+  constructor(private _api:Api, private _store:Store) {
+    this._store.userSubj.asObservable().subscribe(val => console.log(val));
   }
 
   register() {
     this._api.register(this.registerData)
-      .flatMap((val:{_body}) => Observable.of(JSON.parse(val._body)))
-      .do(this.fetchFavoriteEvents)
-      .do(val => {
-        debugger;
-        this._storage.setFavoriteEvents(val);
-      })
-      .first().subscribe((data) => {
+      // .flatMap((val:{_body}) => Observable.of(JSON.parse(val._body)))
+      // .do(this.fetchFavoriteEvents)
+      // .do(val => {
+      //   debugger;
+      //   this._store.setFavoriteEvents(val);
+      // })
+      .first()
+      .subscribe((data) => {
       console.log(data);
-      let user = _(data).findWhere({username: this.registerData.username});
-      this._storage.setUser(user);
-      debugger;
+      // let user = _(data).findWhere({username: this.registerData.username});
+      // this._store.setUser(user);
+        this._store.setUser(data);
       this.modal.close();
+    });
+  }
+
+  ngOnInit() {
+    this.openLoginModal$.subscribe(() => {
+      this.modal.open();
     });
   }
 
@@ -52,13 +62,15 @@ export class Header {
       // .flatMap((val:{_body}) => Observable.of(JSON.parse(val._body)))
       .flatMap(user => {
         // let user = _(users).findWhere({username: this.loginData.username});
-        this._storage.setUser(user);
+        this._store.setUser(user);
 
-        return this.fetchFavoriteEvents();
+        return Observable.of(user);
+        // return this.fetchFavoriteEvents().do(events => {
+        //   this._store.setFavoriteEvents(events);
+        // });
       })
       .first()
       .subscribe(data => {
-        debugger;
         this.modal.close();
       });
   }

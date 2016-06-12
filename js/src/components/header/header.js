@@ -13,12 +13,11 @@ var Rx_1 = require("rxjs/Rx");
 var api_1 = require("../../services/api");
 var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
 var store_1 = require("../../services/store");
-var _ = require("underscore");
 var Header = (function () {
-    function Header(_api, _storage) {
+    function Header(_api, _store) {
         var _this = this;
         this._api = _api;
-        this._storage = _storage;
+        this._store = _store;
         this.activeLoginViewSubj = new Rx_1.BehaviorSubject('login');
         this.registerData = {
             username: null,
@@ -33,35 +32,33 @@ var Header = (function () {
                 .flatMap(function (val) { return Rx_1.Observable.of(JSON.parse(val._body)); })
                 .first();
         };
-        this._storage.userSubj.asObservable().subscribe(function (val) { return console.log(val); });
+        this._store.userSubj.asObservable().subscribe(function (val) { return console.log(val); });
     }
     Header.prototype.register = function () {
         var _this = this;
         this._api.register(this.registerData)
-            .flatMap(function (val) { return Rx_1.Observable.of(JSON.parse(val._body)); })
-            .do(this.fetchFavoriteEvents)
-            .do(function (val) {
-            debugger;
-            _this._storage.setFavoriteEvents(val);
-        })
-            .first().subscribe(function (data) {
+            .first()
+            .subscribe(function (data) {
             console.log(data);
-            var user = _(data).findWhere({ username: _this.registerData.username });
-            _this._storage.setUser(user);
-            debugger;
+            _this._store.setUser(data);
             _this.modal.close();
+        });
+    };
+    Header.prototype.ngOnInit = function () {
+        var _this = this;
+        this.openLoginModal$.subscribe(function () {
+            _this.modal.open();
         });
     };
     Header.prototype.login = function () {
         var _this = this;
         this._api.login(this.loginData)
             .flatMap(function (user) {
-            _this._storage.setUser(user);
-            return _this.fetchFavoriteEvents();
+            _this._store.setUser(user);
+            return Rx_1.Observable.of(user);
         })
             .first()
             .subscribe(function (data) {
-            debugger;
             _this.modal.close();
         });
     };
@@ -69,6 +66,18 @@ var Header = (function () {
         core_1.ViewChild('modal'), 
         __metadata('design:type', ng2_bs3_modal_1.ModalComponent)
     ], Header.prototype, "modal", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Object)
+    ], Header.prototype, "openLoginModal$", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], Header.prototype, "isAuth", void 0);
+    __decorate([
+        core_1.Input(), 
+        __metadata('design:type', String)
+    ], Header.prototype, "displayName", void 0);
     Header = __decorate([
         core_1.Component({
             selector: 'evmk-header',

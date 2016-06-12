@@ -135,7 +135,7 @@ module.exports = {
 
     var query = client.query("CREATE TABLE IF NOT EXISTS favorite" +
       "(" +
-      "fav_id serial NOT NULL," +
+      "fav_id text NOT NULL," +
       "fb_user_id int4 REFERENCES fb_user(id)," +
       "PRIMARY KEY (fav_id, fb_user_id)" +
       ")");

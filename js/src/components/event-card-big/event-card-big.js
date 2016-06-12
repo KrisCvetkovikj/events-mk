@@ -13,7 +13,7 @@ var Rx_1 = require("rxjs/Rx");
 var EventCardBig = (function () {
     function EventCardBig() {
         this.openDetails = new Rx_1.Subject();
-        this.favoriteEvent = new Rx_1.Subject();
+        this.toggleFavoriteEvent = new Rx_1.Subject();
     }
     __decorate([
         core_1.Input(), 
@@ -26,7 +26,7 @@ var EventCardBig = (function () {
     __decorate([
         core_1.Output(), 
         __metadata('design:type', Rx_1.Subject)
-    ], EventCardBig.prototype, "favoriteEvent", void 0);
+    ], EventCardBig.prototype, "toggleFavoriteEvent", void 0);
     EventCardBig = __decorate([
         core_1.Component({
             selector: 'event-card-big',

@@ -17,20 +17,25 @@ var event_card_big_1 = require("./components/event-card-big/event-card-big");
 var event_card_image_1 = require("./components/event-card-image/event-card-image");
 var event_card_text_1 = require("./components/event-card-text/event-card-text");
 var curtain_1 = require("./components/curtain/curtain");
+var util_1 = require("./services/util");
 var _ = require("underscore");
 var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
 var event_details_modal_1 = require("./components/event-details-modal/event-details-modal");
 var api_1 = require("./services/api");
+var store_1 = require("./services/store");
 var App = (function () {
-    function App(_events, _api, viewContainerRef) {
+    function App(_events, _api, _store, viewContainerRef) {
         var _this = this;
         this._events = _events;
         this._api = _api;
-        this.eventsSubj = new Rx_1.Subject();
+        this._store = _store;
         this.fetchEventsTriggers = new Rx_1.Subject();
         this.fetchingEventsSubj = new Rx_1.BehaviorSubject(false);
+        this.eventsFilterSubj = new Rx_1.BehaviorSubject('all');
         this.selectedEventSubj = new Rx_1.Subject();
+        this.toggleFavEventTrigger = new Rx_1.Subject();
         this.entryCardTypeSubj = new Rx_1.BehaviorSubject('big');
+        this.openLoginModalSubj = new Rx_1.Subject();
         this._fetchEvents = function (data) {
             _this.fetchingEventsSubj.next(true);
             var location = data.location, sort = data.sort, fromDate = data.fromDate, toDate = data.toDate;
@@ -70,7 +75,8 @@ var App = (function () {
                     }
                     return event;
                 });
-            }).subscribe(function (events) { return _this.eventsSubj.next(events); });
+            }).subscribe(function (events) { return _this._store.setSearchResultEvents(events); });
+            _this._api.login({ username: 'test' }).subscribe();
         };
         this.close = function () {
             _this.modal.close();
@@ -82,11 +88,30 @@ var App = (function () {
         this.viewContainerRef = viewContainerRef;
         this.isBusy$ = this.fetchingEventsSubj.asObservable().distinctUntilChanged();
         this.entryCardType$ = this.entryCardTypeSubj.asObservable().distinctUntilChanged();
-        this._api.fetchEvents({ lat: 41.99, lng: 21.43, distance: 1000 }).subscribe();
+        this.isAuth$ = this._store.userId$.map(function (val) { return !!val; });
+        this.displayName$ = this._store.userSubj.filter(util_1.identity).map(function (val) { return val.username; });
+        this.displayEvents$ = Rx_1.Observable.combineLatest(this.eventsFilterSubj, this._store.searchResultEventsSubj, this._store.favoriteEventsSubj, function (filter, events, favorite) { return { filter: filter, events: events, favorite: favorite }; }).map(function (data) {
+            var filter = data.filter, events = data.events, favorite = data.favorite;
+            if (filter == 'all')
+                return events;
+            if (filter == 'favorite')
+                return favorite;
+        });
+        this.toggleFavEventTrigger.withLatestFrom(this.isAuth$)
+            .subscribe(function (data) {
+            var event = data[0];
+            var isAuth = data[1];
+            if (isAuth) {
+                _this.toggleFavoriteEvent(event);
+            }
+            else {
+                _this.openLoginModalSubj.next(true);
+            }
+        });
         this.fetchEventsTriggers.distinctUntilChanged().subscribe(this._fetchEvents);
     }
-    App.prototype.favoriteEvent = function (eventId) {
-        this._api.favoriteEvent(eventId);
+    App.prototype.toggleFavoriteEvent = function (event) {
+        this._store.toggleFavoriteEvent(event);
     };
     __decorate([
         core_1.ViewChild('modal'), 
@@ -107,7 +132,7 @@ var App = (function () {
                 event_details_modal_1.EventDetailsModal
             ]
         }), 
-        __metadata('design:paramtypes', [events_1.Events, api_1.Api, core_1.ViewContainerRef])
+        __metadata('design:paramtypes', [events_1.Events, api_1.Api, store_1.Store, core_1.ViewContainerRef])
     ], App);
     return App;
 }());

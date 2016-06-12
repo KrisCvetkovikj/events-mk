@@ -1,5 +1,8 @@
 <div class="app">
-  <evmk-header></evmk-header>
+  <evmk-header
+    [isAuth]="isAuth$ | async"
+    [displayName]="displayName$ | async"
+    [openLoginModal$]="openLoginModalSubj"></evmk-header>
 
   <div class="container">
     <div class="row sometopmargin"></div>
@@ -12,8 +15,8 @@
       <div class="row">
         <div class="filters col-md-12 nopadding">
           <div class="filter-buttons">
-            <button type="button" class="all-events-button btn btn-primary">Сите настани</button>
-            <button type="button" class="fav-events-button btn btn-primary">Омилени</button>
+            <button (click)="eventsFilterSubj.next('all')" type="button" class="all-events-button btn btn-primary">Сите настани</button>
+            <button (click)="eventsFilterSubj.next('favorite')" type="button" class="fav-events-button btn btn-primary">Омилени</button>
           </div>
           <div class="sort-buttons">
             <button
@@ -59,20 +62,17 @@
         <modal-footer [show-default-buttons]="false"></modal-footer>
       </modal>
 
-      <div class="events">
-
-
-
+      <div class="events" >
         <curtain [shouldShow]="isBusy$ | async"></curtain>
         <div
           class="row"
           [hidden]="(entryCardType$ | async) != 'big'"
           style="margin: 16px -15px;">
           <event-card-big
-            *ngFor="let event of eventsSubj | async"
+            *ngFor="let event of displayEvents$ | async"
             theme="big"
             [event]="event"
-            (favoriteEvent)="favoriteEvent($event)"
+            (toggleFavoriteEvent)="toggleFavEventTrigger.next($event)"
             (openDetails)="open(event)">
           </event-card-big>
         </div>
@@ -81,10 +81,10 @@
           [hidden]="(entryCardType$ | async) != 'image'"
           style="margin: 16px -15px;">
           <event-card-image
-            *ngFor="let event of eventsSubj | async"
+            *ngFor="let event of displayEvents$ | async"
             theme="image"
             [event]="event"
-            (favoriteEvent)="favoriteEvent($event)"
+            (toggleFavoriteEvent)="toggleFavEventTrigger.next($event)"
             (openDetails)="open(event)">
           </event-card-image>
         </div>
@@ -93,10 +93,10 @@
           [hidden]="(entryCardType$ | async) != 'text'"
           style="margin: 16px -15px;">
           <event-card-text
-            *ngFor="let event of eventsSubj | async"
+            *ngFor="let event of displayEvents$ | async"
             theme="text"
             [event]="event"
-            (favoriteEvent)="favoriteEvent($event)"
+            (toggleFavoriteEvent)="toggleFavEventTrigger.next($event)"
             (openDetails)="open(event)">
           </event-card-text>
         </div>

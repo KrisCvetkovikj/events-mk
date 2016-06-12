@@ -13,10 +13,11 @@
 </button>
 <button
   type="button"
-  (click)="favoriteEvent.next(event.id)"
+  (click)="toggleFavoriteEvent.next(event)"
   class="btn btn-default">
       <span
         class="glyphicon glyphicon-star"
+        [class.favorited-by-current-user]="event.isFavoritedByCurrentUsed"
         aria-hidden="true">
       </span>
 </button>
