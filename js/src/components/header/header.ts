@@ -35,17 +35,9 @@ export class Header {
 
   register() {
     this._api.register(this.registerData)
-      // .flatMap((val:{_body}) => Observable.of(JSON.parse(val._body)))
-      // .do(this.fetchFavoriteEvents)
-      // .do(val => {
-      //   debugger;
-      //   this._store.setFavoriteEvents(val);
-      // })
       .first()
       .subscribe((data) => {
       console.log(data);
-      // let user = _(data).findWhere({username: this.registerData.username});
-      // this._store.setUser(user);
         this._store.setUser(data);
       this.modal.close();
     });
@@ -59,20 +51,19 @@ export class Header {
 
   login() {
     this._api.login(this.loginData)
-      // .flatMap((val:{_body}) => Observable.of(JSON.parse(val._body)))
       .flatMap(user => {
-        // let user = _(users).findWhere({username: this.loginData.username});
         this._store.setUser(user);
 
         return Observable.of(user);
-        // return this.fetchFavoriteEvents().do(events => {
-        //   this._store.setFavoriteEvents(events);
-        // });
       })
       .first()
       .subscribe(data => {
         this.modal.close();
       });
+  }
+
+  logout() {
+    this._store.setUser(null);
   }
 
   fetchFavoriteEvents = () => {

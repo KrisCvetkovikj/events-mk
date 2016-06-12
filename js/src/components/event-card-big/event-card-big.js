@@ -20,6 +20,10 @@ var EventCardBig = (function () {
         __metadata('design:type', Object)
     ], EventCardBig.prototype, "event", void 0);
     __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], EventCardBig.prototype, "isFavoritedByCurrentUser", void 0);
+    __decorate([
         core_1.Output(), 
         __metadata('design:type', Rx_1.Subject)
     ], EventCardBig.prototype, "openDetails", void 0);

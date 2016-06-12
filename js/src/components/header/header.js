@@ -62,6 +62,9 @@ var Header = (function () {
             _this.modal.close();
         });
     };
+    Header.prototype.logout = function () {
+        this._store.setUser(null);
+    };
     __decorate([
         core_1.ViewChild('modal'), 
         __metadata('design:type', ng2_bs3_modal_1.ModalComponent)

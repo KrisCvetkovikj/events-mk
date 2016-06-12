@@ -20,6 +20,10 @@ var EventCardImage = (function () {
         __metadata('design:type', Object)
     ], EventCardImage.prototype, "event", void 0);
     __decorate([
+        core_1.Input(), 
+        __metadata('design:type', Boolean)
+    ], EventCardImage.prototype, "isFavoritedByCurrentUser", void 0);
+    __decorate([
         core_1.Output(), 
         __metadata('design:type', Rx_1.Subject)
     ], EventCardImage.prototype, "openDetails", void 0);

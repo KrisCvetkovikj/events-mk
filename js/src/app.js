@@ -11,7 +11,6 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var core_1 = require("@angular/core");
 var header_1 = require("./components/header/header");
 var search_events_1 = require("./components/search-events/search-events");
-var events_1 = require("./services/events");
 var Rx_1 = require("rxjs/Rx");
 var event_card_big_1 = require("./components/event-card-big/event-card-big");
 var event_card_image_1 = require("./components/event-card-image/event-card-image");
@@ -19,14 +18,13 @@ var event_card_text_1 = require("./components/event-card-text/event-card-text");
 var curtain_1 = require("./components/curtain/curtain");
 var util_1 = require("./services/util");
 var _ = require("underscore");
-var ng2_bs3_modal_1 = require('ng2-bs3-modal/ng2-bs3-modal');
+var ng2_bs3_modal_1 = require("ng2-bs3-modal/ng2-bs3-modal");
 var event_details_modal_1 = require("./components/event-details-modal/event-details-modal");
 var api_1 = require("./services/api");
 var store_1 = require("./services/store");
 var App = (function () {
-    function App(_events, _api, _store, viewContainerRef) {
+    function App(_api, _store, viewContainerRef) {
         var _this = this;
-        this._events = _events;
         this._api = _api;
         this._store = _store;
         this.fetchEventsTriggers = new Rx_1.Subject();
@@ -90,13 +88,15 @@ var App = (function () {
         this.entryCardType$ = this.entryCardTypeSubj.asObservable().distinctUntilChanged();
         this.isAuth$ = this._store.userId$.map(function (val) { return !!val; });
         this.displayName$ = this._store.userSubj.filter(util_1.identity).map(function (val) { return val.username; });
-        this.displayEvents$ = Rx_1.Observable.combineLatest(this.eventsFilterSubj, this._store.searchResultEventsSubj, this._store.favoriteEventsSubj, function (filter, events, favorite) { return { filter: filter, events: events, favorite: favorite }; }).map(function (data) {
-            var filter = data.filter, events = data.events, favorite = data.favorite;
-            if (filter == 'all')
+        this.displayEvents$ = Rx_1.Observable.combineLatest(this._store.searchResultEventsSubj.asObservable().distinctUntilChanged(), this.eventsFilterSubj.asObservable().distinctUntilChanged(), this.toggleFavEventTrigger.startWith(null), function (events, filter, toggleFavEvent) { return { events: events, filter: filter, toggleFavEvent: toggleFavEvent }; }).map(function (data) {
+            var events = data.events, filter = data.filter, toggleFavEvent = data.toggleFavEvent;
+            if (filter == 'all') {
                 return events;
-            if (filter == 'favorite')
-                return favorite;
-        });
+            }
+            else if (filter == 'favorite') {
+                return _(events).filter(function (event) { return event.isFavoritedByCurrentUser; });
+            }
+        }).distinctUntilChanged();
         this.toggleFavEventTrigger.withLatestFrom(this.isAuth$)
             .subscribe(function (data) {
             var event = data[0];
@@ -132,7 +132,7 @@ var App = (function () {
                 event_details_modal_1.EventDetailsModal
             ]
         }), 
-        __metadata('design:paramtypes', [events_1.Events, api_1.Api, store_1.Store, core_1.ViewContainerRef])
+        __metadata('design:paramtypes', [api_1.Api, store_1.Store, core_1.ViewContainerRef])
     ], App);
     return App;
 }());

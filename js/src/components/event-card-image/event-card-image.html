@@ -15,7 +15,7 @@
       class="btn btn-default">
           <span
             class="glyphicon glyphicon-star"
-            [class.favorited-by-current-user]="event.isFavoritedByCurrentUsed"
+            [class.favorited-by-current-user]="isFavoritedByCurrentUser"
             aria-hidden="true">
           </span>
     </button>
@@ -37,6 +37,6 @@
     alt="Event image">
 </div>
 <div class="col-md-6 ">
-  <h3>{{ event.eventName }}</h3>
+  <h4>{{ event.eventName }}</h4>
   <p>{{ event.shortDescription }}</p>
 </div>

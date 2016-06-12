@@ -73,6 +73,7 @@
             theme="big"
             [event]="event"
             (toggleFavoriteEvent)="toggleFavEventTrigger.next($event)"
+            [isFavoritedByCurrentUser]="event.isFavoritedByCurrentUser"
             (openDetails)="open(event)">
           </event-card-big>
         </div>
@@ -85,6 +86,7 @@
             theme="image"
             [event]="event"
             (toggleFavoriteEvent)="toggleFavEventTrigger.next($event)"
+            [isFavoritedByCurrentUser]="event.isFavoritedByCurrentUser"
             (openDetails)="open(event)">
           </event-card-image>
         </div>
@@ -97,6 +99,7 @@
             theme="text"
             [event]="event"
             (toggleFavoriteEvent)="toggleFavEventTrigger.next($event)"
+            [isFavoritedByCurrentUser]="event.isFavoritedByCurrentUser"
             (openDetails)="open(event)">
           </event-card-text>
         </div>

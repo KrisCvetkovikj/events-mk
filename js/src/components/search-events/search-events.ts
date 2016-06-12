@@ -80,13 +80,6 @@ export class SearchEvents {
   }
 
   search() {
-    // console.log(`
-    //   fromDateTime : ${this.fromDateTime},
-    //   toDateTime   : ${this.toDateTime}
-    // `);
-    // console.log('location: ', this.location);
-    // console.log('sort: ', this.sort);
-
     if(!this.location) {
       return;
     }

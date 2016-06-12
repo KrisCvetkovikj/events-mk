@@ -14,6 +14,8 @@ import {Subject} from "rxjs/Rx";
 })
 export class EventCardText {
   @Input() event: IEvent;
+  @Input() isFavoritedByCurrentUser: boolean;
+
   @Output() openDetails: Subject<any> = new Subject();
   @Output() toggleFavoriteEvent: Subject<any> = new Subject();
 }
