@@ -1,0 +1,100 @@
+<div class="left col-md-3">
+
+  <div class="row" style="text-align: center;">
+    <h2>
+      <span
+        class="glyphicon glyphicon-map-marker"
+        aria-hidden="true">
+      </span>
+      Најди настани
+    </h2>
+  </div>
+  <form>
+    <div class="row">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-2 col-md-2">
+        <p>Во: </p>
+      </div>
+      <div class="col-xs-7 col-md-8">
+        <ng-select
+          [allowClear]="false"
+          [items]="locationItems"
+          [data]="initialLocation"
+          (selected)="selectedLocation($event)"
+          placeholder="Изберете град">
+        </ng-select>
+      </div>
+    </div>
+    <div
+      *ngIf="location && location.children"
+      class="row">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-2 col-md-2">
+        <p></p>
+      </div>
+      <div class="col-xs-7 col-md-8">
+        <ng-select
+          [allowClear]="false"
+          [items]="location.children"
+          [data]="initialMunicipality"
+          (selected)="selectedMunicipality($event)"
+          placeholder="Изберете општина">
+        </ng-select>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-2 col-md-2">
+        <p>Од: </p>
+      </div>
+      <div class="col-xs-7 col-md-8">
+        <input
+          type="date"
+          [(ngModel)]="fromDateTime"
+          class="form-control dates">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-xs-1"></div>
+      <div class="col-xs-2 col-md-2">
+        <p>До: </p>
+      </div>
+      <div class="col-xs-7 col-md-8">
+        <input
+          type="date"
+          [(ngModel)]="toDateTime"
+          class="form-control dates">
+      </div>
+    </div>
+    <div class="sometopmargin">
+    </div>
+    <div class="row">
+      <div class="col-xs-1"></div>
+      <div class="nopadding col-xs-2 col-md-3">
+        <p>Сортирање:</p>
+      </div>
+      <div class="col-xs-7 col-md-7">
+        <ng-select
+          [allowClear]="false"
+          [items]="sortItems"
+          [data]="initialSort"
+          (selected)="selectedSort($event)"
+          placeholder="Сортирање">
+        </ng-select>
+      </div>
+    </div>
+    <div class="row" style="text-align: center;margin-top: 16px;">
+      <button
+        type="button"
+        (click)="search()"
+        class="search-button btn btn-danger">
+        <span
+          class="glyphicon glyphicon-search"
+          aria-hidden="true">
+        </span>
+        Пребарај
+      </button>
+      <button (click)="searchRandom()" type="button" class="surprise-button btn btn-primary"><span class="glyphicon glyphicon-send" aria-hidden="true"></span>Изненади ме</button>
+    </div>
+  </form>
+</div>

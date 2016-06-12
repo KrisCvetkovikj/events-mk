@@ -1,0 +1,41 @@
+<div class="col-xs-6 col-md-6 nopadding">
+  <div class="col-xs-4 col-md-4 nopadding">
+    <button
+      type="button"
+      (click)="openDetails.next(true)"
+      class="btn btn-default">
+          <span
+            class="glyphicon glyphicon-info-sign"
+            aria-hidden="true">
+          </span>
+    </button>
+    <button
+      type="button"
+      (click)="favoriteEvent.next(event.id)"
+      class="btn btn-default">
+          <span
+            class="glyphicon glyphicon-star"
+            aria-hidden="true">
+          </span>
+    </button>
+    <a
+      [href]="'https://www.facebook.com/events/' + event.eventId"
+      target="_blank">
+      <button
+        type="button"
+        class="btn btn-default">
+        <span
+          class="glyphicon glyphicon-link"
+          aria-hidden="true">
+        </span>
+      </button>
+    </a>
+  </div>
+  <img
+    [src]="event.eventProfilePicture"
+    alt="Event image">
+</div>
+<div class="col-md-6 ">
+  <h3>{{ event.eventName }}</h3>
+  <p>{{ event.shortDescription }}</p>
+</div>

@@ -1,0 +1,76 @@
+<nav class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="#"><img src="/img/logo.png" alt="Nastani.mk" /></a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <form class="navbar-form navbar-right" role="form">
+        <button type="button" (click)="modal.open()" class="btn btn-primary">Најава</button>
+      </form>
+
+      <!-- Modal -->
+      <modal #modal>
+        <modal-header [show-close]="true">
+          <h4 class="modal-title">{{ (activeLoginViewSubj | async) == 'login' ? 'Најава' : 'Регистрација' }}</h4>
+        </modal-header>
+        <modal-body>
+          <form
+            *ngIf="(activeLoginViewSubj | async) == 'login'"
+            role="form">
+            <div class="form-group">
+              <label for="email">Корисничко име:</label>
+              <input type="email" [(ngModel)]="loginData.username" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Лозинка:</label>
+              <input type="password" class="form-control" [(ngModel)]="loginData.password" id="pwd">
+            </div>
+            <button type="button" (click)="login()" class="login-button btn btn-primary">Најави се</button>
+            <button (click)="activeLoginViewSubj.next('register')" type="button" class="register-button btn btn-default">Не си регистриран?</button>
+          </form>
+
+          <form
+            *ngIf="(activeLoginViewSubj | async) == 'register'"
+            role="form">
+            <div class="form-group">
+              <label for="email">Корисничко име:</label>
+              <input type="email" [(ngModel)]="registerData.username" class="form-control" id="email">
+            </div>
+            <div class="form-group">
+              <label for="pwd">Лозинка:</label>
+              <input type="password" [(ngModel)]="registerData.password" class="form-control" id="pwd">
+            </div>
+            <button type="submit" type="button" (click)="register()" class="login-button btn btn-primary">Регистрирај се</button>
+            <button (click)="activeLoginViewSubj.next('login')" type="button" class="register-button btn btn-default">Имаш кориничка сметка?</button>
+          </form>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false"></modal-footer>
+      </modal>
+
+      <!--<div id="loginModal" class="modal fade" role="dialog">-->
+        <!--<div class="modal-dialog">-->
+
+          <!--&lt;!&ndash; Modal content&ndash;&gt;-->
+          <!--<div class="modal-content">-->
+            <!--<div class="modal-header">-->
+              <!--<button type="button" class="close" data-dismiss="modal">&times;</button>-->
+              <!--<h4 class="modal-title">{{ (activeLoginViewSubj | async) == 'login' ? 'Најава' : 'Регистрација' }}</h4>-->
+            <!--</div>-->
+            <!--<div class="modal-body login-form">-->
+
+
+            <!--</div>-->
+          <!--</div>-->
+
+        <!--</div>-->
+      <!--</div>-->
+    </div>
+    <!--/.navbar-collapse -->
+  </div>
+</nav>

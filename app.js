@@ -27,7 +27,7 @@ app.use('/img', express.static(__dirname + "/img"));
 app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: false}));
-app.use(cookieParser());
+app.use(cookieParser('secret'));
 app.use(require('stylus').middleware(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -37,6 +37,10 @@ app.use('/events', events);
 
 app.get('/', function (req, res) {
     res.render('index');
+});
+
+app.get('/event-test', function (req, res) {
+    res.render('event-test');
 });
 
 app.get('/test', function (req, res) {

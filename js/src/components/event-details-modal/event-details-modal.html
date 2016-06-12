@@ -1,0 +1,87 @@
+<div id="news_pane">
+  <div class="event_single">
+    <div class="event_header">
+      <div
+        class="event_cover"
+        [style.background-image]="'url(' + event?.eventCoverPicture + ')' | safe">
+        <span></span>
+        <div class="event_cover_title_bar">
+          <div class="event_calendar">
+            <div>
+              <span class="event_month">{{ getMonthName(event?.eventStartTime?.getMonth()) }}</span>
+              <span class="event_day">{{ event?.eventStartTime?.getDay() }}</span>
+            </div>
+          </div>
+          <h2>
+            <a
+              [href]="'https://www.facebook.com/events/' + event?.eventId"
+              target="_blank">
+              {{ event?.eventName }}
+            </a>
+          </h2>
+        </div>
+      </div>
+      <div
+        class="event_actions">
+        <span id="event_hosted">
+          <span></span>
+          Организирано од:
+          <a
+            [href]="'https://www.facebook.com/' + event?.venueId"
+            target="_blank">
+            <p>{{ event?.venueName }}</p>
+          </a>
+        </span>
+      </div>
+    </div>
+    <div class="event_details">
+      <div id="event_date">
+        <div><span></span></div>
+        <div>
+          <p>{{ event?.eventStartTime?.toGMTString() }}</p>
+          <!--<p>Today</p>-->
+        </div>
+      </div>
+      <div id="event_location">
+        <div><span></span></div>
+        <div>
+          <a
+            [href]="'https://www.facebook.com/' + event?.venueId"
+            target="_blank">
+            <p>{{ event?.venueName }}</p>
+            <p>{{ event?.venueLocation?.street + ', ' + event?.venueLocation?.zip + ' ' +  event?.venueLocation?.city }}</p>
+          </a>
+        </div>
+      </div>
+    </div>
+    <div class="event_attendance">
+      <p>ГОСТИ</p>
+      <div>
+        <span>{{ event?.eventStats?.maybeCount }}</span>
+        <span>
+          заинтересирани
+        </span>
+      </div>
+      <div>
+        <span>{{ event?.eventStats?.attendingCount }}</span>
+        <span>
+          ќе присуствуваат
+        </span>
+      </div>
+      <div>
+        <span>{{ event?.eventStats?.totalCount }}</span>
+        <span>
+          поканети
+        </span>
+      </div>
+    </div>
+
+    <div
+      class="event_description"
+      style="width:100%">
+      <h2>Детали</h2>
+      <hr>
+      {{ event?.eventDescription }}
+    </div>
+  </div>
+</div>

@@ -1,0 +1,113 @@
+<div class="app">
+  <evmk-header></evmk-header>
+
+  <div class="container">
+    <div class="row sometopmargin"></div>
+
+    <search-events (triggerSearchEvents)="fetchEventsTriggers.next($event);"></search-events>
+
+    <div class="col-md-1"></div>
+
+    <div class="right col col-md-8">
+      <div class="row">
+        <div class="filters col-md-12 nopadding">
+          <div class="filter-buttons">
+            <button type="button" class="all-events-button btn btn-primary">Сите настани</button>
+            <button type="button" class="fav-events-button btn btn-primary">Омилени</button>
+          </div>
+          <div class="sort-buttons">
+            <button
+              type="button"
+              (click)="entryCardTypeSubj.next('big')"
+              class="btn btn-primary">
+              <span
+                class="glyphicon glyphicon-th-large"
+                aria-hidden="true">
+              </span>
+            </button>
+            <button
+              type="button"
+              (click)="entryCardTypeSubj.next('image')"
+              class="btn btn-primary">
+              <span
+                class="glyphicon glyphicon-th-list"
+                aria-hidden="true">
+              </span>
+            </button>
+            <button
+              type="button"
+              (click)="entryCardTypeSubj.next('text')"
+              class="btn btn-primary">
+              <span
+                class="glyphicon glyphicon-align-justify"
+                aria-hidden="true">
+              </span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <modal #modal>
+        <modal-header [show-close]="false">
+          <h4 class="modal-title">{{ selectedEvent?.eventName }}</h4>
+        </modal-header>
+        <modal-body>
+          <event-details-modal
+            [event]="selectedEventSubj | async">
+          </event-details-modal>
+        </modal-body>
+        <modal-footer [show-default-buttons]="false"></modal-footer>
+      </modal>
+
+      <div class="events">
+
+
+
+        <curtain [shouldShow]="isBusy$ | async"></curtain>
+        <div
+          class="row"
+          [hidden]="(entryCardType$ | async) != 'big'"
+          style="margin: 16px -15px;">
+          <event-card-big
+            *ngFor="let event of eventsSubj | async"
+            theme="big"
+            [event]="event"
+            (favoriteEvent)="favoriteEvent($event)"
+            (openDetails)="open(event)">
+          </event-card-big>
+        </div>
+        <div
+          class="row"
+          [hidden]="(entryCardType$ | async) != 'image'"
+          style="margin: 16px -15px;">
+          <event-card-image
+            *ngFor="let event of eventsSubj | async"
+            theme="image"
+            [event]="event"
+            (favoriteEvent)="favoriteEvent($event)"
+            (openDetails)="open(event)">
+          </event-card-image>
+        </div>
+        <div
+          class="row"
+          [hidden]="(entryCardType$ | async) != 'text'"
+          style="margin: 16px -15px;">
+          <event-card-text
+            *ngFor="let event of eventsSubj | async"
+            theme="text"
+            [event]="event"
+            (favoriteEvent)="favoriteEvent($event)"
+            (openDetails)="open(event)">
+          </event-card-text>
+        </div>
+      </div>
+
+
+
+
+    </div>
+
+  </div>
+</div>
+
+<router-outlet></router-outlet>
