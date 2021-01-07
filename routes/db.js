@@ -5,7 +5,7 @@
 var pg = require('pg');
 //var bcrypt = require('bcrypt');
 //You can run command "heroku config" to see what is Database URL from Heroku belt
-var conString = "postgres://kmfcdszjigwmbv:nwxFlg7FEPuHwRlNer9lMGRtOu@ec2-54-247-185-241.eu-west-1.compute.amazonaws.com:5432/da1u238vm4lm4l";
+var conString = "/";
 pg.defaults.ssl = true;
 
 module.exports = {

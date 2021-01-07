@@ -1,4 +1,4 @@
-System.config({
+  System.config({
   defaultJSExtensions: true,
   format: 'registerUser',
   paths: {

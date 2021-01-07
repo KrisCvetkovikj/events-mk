@@ -1,9 +1,8 @@
 var express = require('express');
 var router = express.Router();
 var Promise = require("bluebird");
-var rp = require('request-promise');
 
-const FB_TOKEN = "EAANgFkSB8gEBADQZCfnic2ts5vnMHrTt7F8sf9q1dZA53ukFs3AKLC46PogISnZBAeDzInoIynSkkhv8jEGZAA3JXoDC3vAn9SJti2Xfz4liZAh9fiXJTs5NOgOpj7zqe44g6m3fZAlDnI2tDjjqRthg81VgTAN1IZD";
+const FB_TOKEN = "/";
 
 function calculateStarttimeDifference(currentTime, dataString) {
     return (new Date(dataString).getTime() - (currentTime * 1000)) / 1000;
@@ -89,7 +88,7 @@ router.get('/', function (req, res, next) {
             venuesCount = 0,
             venuesWithEvents = 0,
             eventsCount = 0,
-            placeUrl = "https://graph.facebook.com/v2.5/search?type=place&q=*&center=" + req.query.lat + "," + req.query.lng + "&distance=" + req.query.distance + "&limit=1000&fields=id&access_token=" + FB_TOKEN;
+            placeUrl = "https://graph.facebook.com/v9.0/search?type=place&q=*&center=" + req.query.lat + "," + req.query.lng + "&distance=" + req.query.distance + "&limit=1000&fields=id&access_token=" + FB_TOKEN;
 
         if (req.query.from === undefined) {
             console.log("no from parameter, will provide the usual events");
@@ -99,9 +98,9 @@ router.get('/', function (req, res, next) {
             //console.log("from: " + req.query.from + " -- " + typeof (req.query.from));
             currentTimestamp = req.query.from.toString();
         }
-        
+
         //Get places as specified
-        rp.get(placeUrl).then(function (responseBody) {
+        http.get(placeUrl).then(function (responseBody) {
 
             var ids = [],
                 tempArray = [],
@@ -131,7 +130,7 @@ router.get('/', function (req, res, next) {
 
             //Create a Graph API request array (promisified)
             ids.forEach(function (idArray, index, arr) {
-                urls.push(rp.get("https://graph.facebook.com/v2.5/?ids=" + idArray.join(",") + "&fields=id,name,cover.fields(id,source),picture.type(large),location,events.fields(id,name,cover.fields(id,source),picture.type(large),description,start_time,attending_count,declined_count,maybe_count,noreply_count).since(" + currentTimestamp + ")&access_token=" + FB_TOKEN));
+                urls.push(http.get("https://graph.facebook.com/v9.0/?ids=" + idArray.join(",") + "&fields=id,name,cover.fields(id,source),picture.type(large),location,events.fields(id,name,cover.fields(id,source),picture.type(large),description,start_time,attending_count,declined_count,maybe_count,noreply_count).since(" + currentTimestamp + ")&access_token=" + FB_TOKEN));
             });
 
             return urls;
